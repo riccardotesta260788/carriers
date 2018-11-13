@@ -19,8 +19,7 @@ class Scarping():
         return [user_random]
 
 
-    ##Get html code from url path using fake agent UTF-8 string conversion
-
+    #Get html code from url path using fake agent UTF-8 string conversion
     def getHTML(self, urlpath):
         opener = urllib2.build_opener()
         opener.addheaders = self.__getFakeAgent()
@@ -28,9 +27,9 @@ class Scarping():
         page = response.read()
         return page.decode("utf-8")
 
+    # Istantiate BeautifulSoup library with html constructor parser
     def soup(self, html_doc):
         html_struct = BeautifulSoup(html_doc, 'html.parser')
-
         return html_struct
 
 class Fastweb(Scarping):
@@ -43,21 +42,43 @@ class Fastweb(Scarping):
         soup = soup.select('li')
         return soup
 
+    def getData(self, soup):
+        results = [] #Array data result
+
+        for entry in soup:
+            #Verify if css selector exist for specific entry
+
+            if entry.select('span.product'):
+                product = entry.select('span.product')[0].text
+
+            if entry.select('span.pricepromoshort > span.hilite > span.number'):
+                price = entry.select('span.pricepromoshort > span.hilite > span.number')[0].text
+
+            if entry.select('span.pricepromoshort > span.small > span.fullprice '):
+                fullprice = entry.select('span.pricepromoshort > span.small > span.fullprice ')[0].text
+
+            if  entry.select('span.description'):
+                description = entry.select('span.description')[0].text
+
+            #
+            results.append({'product': str(product),
+                            'price': str(price),
+                            'fullprice': str(fullprice),
+                            'description': str(description)})
+
+            # Debug print single entry voice
+            print("prodotto %s: %s/%s \ndescrizione: %s\n\n" % (
+            str(product), str(price), str(fullprice), str(description)))
+
+        #Debug full result entry list
+        print(results)
+
+
 fast=Fastweb()
 html=fast.getHTML("http://www.fastweb.it")
 
 
 soup=fast.soup(html)
 soup=fast.fastStructure(soup)
-for entry in soup:
-    entry=str(entry)
-    #Compress decimal to fullprice
-    entry=entry.replace('<span class="decimals">','')
 
-    entry=fast.soup(entry)
-    product = entry.select('span.product')
-
-    price = entry.select('span.pricepromoshort > span.hilite > span.number')
-
-    print(entry)
-    print("prodotto %s : %s\n" % (str(product),str(price)))
+results= fast.getData(soup)
