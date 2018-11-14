@@ -1,0 +1,33 @@
+{% extends 'homepage.html' %}
+{% load staticfiles %}
+{% block messaggiologo %}
+    <div class="alert alert-success" role="alert">
+
+    {% for entry in results %}
+        <div class="row">
+            <div class="col-md-8">
+                <div id="off-{{ entry.id }}">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ entry.product }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ entry.price }}/mese
+                                <small>anzichè {{ entry.fullprice }}</small>
+                            </h6>
+                            <p class="card-text">{{ entry.description }}</p>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <a href="/buy?id=off-{{ entry.id }}" class="card-link">
+                    <button type="button" class="btn btn-primary btn-lg btn-block">Buy</button>
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+
+
+{% endblock %}

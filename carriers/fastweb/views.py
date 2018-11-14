@@ -1,15 +1,38 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from fastweb.lib.scraping import *
+from fastweb.lib.datagestion import *
 
 # Create your views here.
 
 
 def home(request):
-    return render(request, 'homepageNotLog.html', context={"message": "Home page"})
+    fast = Fastweb()
+    html = fast.getHTML("http://www.fastweb.it")
 
+    soup = fast.soup(html)
+    soup = fast.fastStructure(soup)
 
-def login(request):
-    return render(request, 'registration/login.html',context={})
+    results = fast.getData(soup)
+
+    return render(request, 'innermain.html', context={"results": results})
+
+def scraper(request):
+    #Creation scraping request to carrier's website
+    fast = Fastweb()
+    html = fast.getHTML("http://www.fastweb.it")
+    soup = fast.soup(html)
+    soup = fast.fastStructure(soup)
+
+    results = fast.getData(soup) #JSON offer entries
+
+    #Insert all scraped offer in database
+    for entry in results:
+        digest = CarriersData() # call specific class to manage carrier offer insert in database model
+        digest.insert_off(entry,"Fastweb")
+
+    return render(request, 'innermain.html', context={"results": results})
+
 
 
 def handler404(request):

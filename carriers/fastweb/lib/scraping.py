@@ -1,7 +1,7 @@
 '''
 Class for carrier data scraping inherit Scraper super class
 '''
-from bs4 import BeautifulSoup
+
 import urllib.request  as urllib2
 from fake_useragent import UserAgent
 from bs4 import BeautifulSoup
@@ -44,7 +44,7 @@ class Fastweb(Scarping):
 
     def getData(self, soup):
         results = [] #Array data result
-
+        id=0
         for entry in soup:
             #Verify if css selector exist for specific entry
 
@@ -61,24 +61,19 @@ class Fastweb(Scarping):
                 description = entry.select('span.description')[0].text
 
             #
-            results.append({'product': str(product),
+            results.append({'id':str(id),
+                            'product': str(product),
                             'price': str(price),
                             'fullprice': str(fullprice),
                             'description': str(description)})
+            id=id+1
 
             # Debug print single entry voice
-            print("prodotto %s: %s/%s \ndescrizione: %s\n\n" % (
-            str(product), str(price), str(fullprice), str(description)))
+            #print("prodotto %s: %s/%s \ndescrizione: %s\n\n" % (str(product), str(price), str(fullprice), str(description)))
 
         #Debug full result entry list
-        print(results)
+        #print(results)
+        return results
 
 
-fast=Fastweb()
-html=fast.getHTML("http://www.fastweb.it")
 
-
-soup=fast.soup(html)
-soup=fast.fastStructure(soup)
-
-results= fast.getData(soup)
