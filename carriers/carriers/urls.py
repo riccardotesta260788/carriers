@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'admin/', admin.site.urls),
     url(r'accounts/', include('django.contrib.auth.urls')),
     url(r'^', include('fastweb.urls')),
+    url(r'^', include('fastweb.API.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 ='fastweb.views.handler404'

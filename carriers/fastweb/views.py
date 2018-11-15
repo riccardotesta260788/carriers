@@ -34,7 +34,6 @@ def scraper(request):
     return render(request, 'innermain.html', context={"results": results})
 
 
-
 def handler404(request):
     return render(request, 'errors.html', status=404, context={"errore": '404',
                                                                "message":"Pagina non trovata"})
@@ -42,3 +41,6 @@ def handler404(request):
 def handler500(request):
     return render(request, 'errors.html', status=500,context={"errore":'500',
                                                               "message":"Errore del server"})
+
+
+

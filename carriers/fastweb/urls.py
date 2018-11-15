@@ -8,6 +8,7 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     url(r'^$',mainview.home,name="home"),
     url(r'scraper/$',mainview.scraper,name="scraper"),
+
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 ='fastweb.views.handler404'
