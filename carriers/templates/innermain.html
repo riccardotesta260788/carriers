@@ -1,33 +1,91 @@
 {% extends 'homepage.html' %}
 {% load staticfiles %}
 {% block messaggiologo %}
-    <div class="alert alert-success" role="alert">
+    <h1>Carrier plans</h1>
 
-    {% for entry in results %}
+    <form>
         <div class="row">
             <div class="col-md-8">
-                <div id="off-{{ entry.id }}">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ entry.product }}</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">{{ entry.price }}/mese
-                                <small>anzichè {{ entry.fullprice }}</small>
-                            </h6>
-                            <p class="card-text">{{ entry.description }}</p>
+
+                <p>Prices between <input type="number" id="lower_bound" style="max-width: 50%">
+                    and <input type="number" id="high_bound" style="max-width: 50%"></p>
+            </div>
+            <div class="col-md-4">
+
+                <select class="form-control" id="order" onclick="sort()">
+                    <option value="1">Sort by price (asc)</option>
+                    <option value="2">Sort by price (des)</option>
+                </select>
+            </div>
+        </div>
+    </form>
+
+
+    <div id="sortable">
+        {% for entry in results %}
+            <div class="row product" data-price="{{ entry.price }}">
+                <div class="col-md-12 ">
+
+                    <div id="off-{{ entry.id }}">
+                        <div class="card" width="100%">
+                            <div class="card-body ">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h1 class="card-title">{{ entry.product }}</h1>
+
+
+                                    </div>
+                                    <div class="col-md-4 text-right">
+                                        <h1 class="card-subtitle mb-2 text-muted">{{ entry.price }}€/mese</h1>
+                                        <h5>anzichè {{ entry.full_price }}€</h5>
+
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <p class="card-text">{{ entry.description }}</p>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-8"></div>
+                                    <div class="col-md-4">
+                                        <a href="/buy?id=off-{{ entry.id }}" class="card-link">
+                                            <button type="button" class="btn btn-primary btn-lg btn-block">Buy now
+                                            </button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
 
                         </div>
-
                     </div>
                 </div>
             </div>
+        {% endfor %}
+    </div>
 
-            <div class="col-md-4">
-                <a href="/buy?id=off-{{ entry.id }}" class="card-link">
-                    <button type="button" class="btn btn-primary btn-lg btn-block">Buy</button>
-                </a>
-            </div>
-        </div>
-    {% endfor %}
+    <script>
+
+    //Sorting function for price value
+
+        function sort() {
+            var value = $("#order option:selected").val()
+            console.log(value)
+            if (value == 1) {  $("#sortable div.row.product").sort(sort_div_asc).appendTo('#sortable');}
+            else if (value == 2 ){  $("#sortable div.row.product").sort(sort_div_desc).appendTo('#sortable');}
+
+            function sort_div_asc(a, b) {
+                return ($(b).attr("data-price") < ($(a).attr("data-price"))) ? 1 : -1;
+            }
+            function sort_div_desc(b, a) {
+                return ($(b).attr("data-price") < ($(a).attr("data-price"))) ? 1 : -1;
+            }
+
+
+        }
+    </script>
 
 
 {% endblock %}

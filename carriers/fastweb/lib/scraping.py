@@ -63,8 +63,8 @@ class Fastweb(Scarping):
             #
             results.append({'id':str(id),
                             'product': str(product),
-                            'price': str(price),
-                            'fullprice': str(fullprice),
+                            'price': str(price).replace("€","").replace(",",".").replace(".",","),
+                            'fullprice': str(fullprice).replace("€","").replace(",",".").replace(".",","),
                             'description': str(description)})
             id=id+1
 

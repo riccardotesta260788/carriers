@@ -7,15 +7,8 @@ from fastweb.lib.datagestion import *
 
 
 def home(request):
-    fast = Fastweb()
-    html = fast.getHTML("http://www.fastweb.it")
-
-    soup = fast.soup(html)
-    soup = fast.fastStructure(soup)
-
-    results = fast.getData(soup)
-
-    return render(request, 'innermain.html', context={"results": results})
+    plans=models.Offers.objects.all()
+    return render(request, 'innermain.html', context={"results": plans})
 
 def scraper(request):
     #Creation scraping request to carrier's website
