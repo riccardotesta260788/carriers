@@ -7,8 +7,8 @@
         <div class="row">
             <div class="col-md-8">
 
-                <p>Prices between <input type="number" id="lower_bound" style="max-width: 50%">
-                    and <input type="number" id="high_bound" style="max-width: 50%"></p>
+                <p>Prices between <input type="number" id="lower_bound" style="max-width: 50%" onchange="filter_sort()">
+                    and <input type="number" id="high_bound" style="max-width: 50%" onchange="filter_sort()"></p>
             </div>
             <div class="col-md-4">
 
@@ -51,7 +51,7 @@
                                 <div class="row">
                                     <div class="col-md-8"></div>
                                     <div class="col-md-4">
-                                        <a href="/buy?id=off-{{ entry.id }}" class="card-link">
+                                        <a href="/buy?id={{ entry.carrier }}-{{ entry.id }}" class="card-link">
                                             <button type="button" class="btn btn-primary btn-lg btn-block">Buy now
                                             </button>
                                         </a>
@@ -68,23 +68,61 @@
 
     <script>
 
-    //Sorting function for price value
+        /*
+        Sorting function for price value
+        */
 
         function sort() {
             var value = $("#order option:selected").val()
             console.log(value)
-            if (value == 1) {  $("#sortable div.row.product").sort(sort_div_asc).appendTo('#sortable');}
-            else if (value == 2 ){  $("#sortable div.row.product").sort(sort_div_desc).appendTo('#sortable');}
+            if (value == 1) {
+                $("#sortable div.row.product").sort(sort_div_asc).appendTo('#sortable');
+            }
+            else if (value == 2) {
+                $("#sortable div.row.product").sort(sort_div_desc).appendTo('#sortable');
+            }
 
             function sort_div_asc(a, b) {
                 return ($(b).attr("data-price") < ($(a).attr("data-price"))) ? 1 : -1;
             }
+
             function sort_div_desc(b, a) {
                 return ($(b).attr("data-price") < ($(a).attr("data-price"))) ? 1 : -1;
             }
 
 
         }
+
+        /**
+         * Fiter for price bounds
+         */
+        function filter_sort() {
+            min = $("#lower_bound").val()
+            max = $("#high_bound").val()
+
+            console.log(min, max)
+
+
+            $("#sortable div.row.product").filter(filtval);
+
+
+            function filtval() {
+                price = $(this).attr("data-price")
+                console.log(price)
+                console.log((price > min && price < max))
+                if (price > min && price < max){
+                     $(this).show()
+                }
+                else{
+
+                    $(this).hide()
+                }
+            }
+
+
+        }
+
+
     </script>
 
 
