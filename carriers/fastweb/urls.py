@@ -7,7 +7,8 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^$',mainview.home,name="home"),
-    url(r'scraper/$',mainview.scraper,name="scraper"),
+    url(r'scraper/$',mainview.scraper,name="scraper"),#link scraping bot
+    url(r'buy/$',mainview.buylog,name="buylog"),#link resolve user buy interaction
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

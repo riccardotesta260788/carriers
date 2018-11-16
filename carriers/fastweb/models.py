@@ -1,11 +1,12 @@
 from django.db import models
 
-'''
-The Offer model has fields that can will be used to store carrier's offer.
-Data model will be used to export infos for API gateway.
-'''
+
 
 class Offers(models.Model):
+    """
+    The Offer model has fields that can will be used to store carrier's offer.
+    Data model will be used to export infos for API gateway.
+    """
     carrier = models.CharField(max_length=100, default='')# carrier name
     product= models.CharField(max_length=100, default='')
     price= models.FloatField(blank=True,db_column='price',default='0')
@@ -14,15 +15,13 @@ class Offers(models.Model):
     data=models.DateTimeField(auto_now_add=True, blank=True) # datetime of offer scraping
 
 
-'''
-The Offer model has field would be used to store user interaction on offer buy.
-'''
 
 class UserInteraction(models.Model):
-    ip = models.CharField(max_length=100, default='')
-    user_agent= models.CharField(max_length=100, default='')
-    id_offer = models.CharField(max_length=100, default='') #id offer association
-    data = models.DateTimeField(auto_now_add=True)  # datetime entry creation
+    """
+    The Offer model has field would be used to store user interaction on offer buy.
+    """
+    ip = models.CharField(blank=True,max_length=100, default='')
+    user_agent= models.CharField(blank=True,max_length=100, default='')
+    id_offer = models.CharField(blank=True,max_length=100, default='') #id offer association
+    data = models.DateTimeField(blank=True,auto_now_add=True)  # datetime entry creation
 
-    def save(self):
-        super(UserInteraction, self).save()

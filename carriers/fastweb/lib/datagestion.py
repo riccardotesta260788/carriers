@@ -1,7 +1,11 @@
 from .. import models
 import sys
 
+
 class CarriersData():
+    """
+    Support class for data insertion in database
+    """
     def __init__(self):
         print('Data Digestion -> Carrier Data ... Initialised')
 
@@ -10,8 +14,6 @@ class CarriersData():
         price=price.replace('€', '')
         price=price.replace(',', '.')
         return float(price)
-
-    #insert entry
 
     def insert_off(self,entry,carrier):
 
@@ -25,12 +27,6 @@ class CarriersData():
         price=self.pricetoFloat(entry['price'])
         off.price=price
         off.carrier=carrier
-
-        print(carrier)
-        print(entry)
-        print(fullprice)
-        print(price)
-
         off.save()
 
 

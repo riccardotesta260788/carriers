@@ -15,4 +15,15 @@ class OffersAdmin(admin.ModelAdmin):
     list_filter = ('product','carrier','price','full_price')
     list_per_page = 25
 
+# Register your models here.
+class UserInteractionAdmin(admin.ModelAdmin):
+
+
+    list_display = ('ip','user_agent', 'id_offer', 'data')
+    search_fields = ('ip','user_agent', 'id_offer', 'data')
+    filter=('ip','id_offer')
+    list_filter = ('ip','user_agent', 'id_offer', 'data')
+    list_per_page = 25
+
+admin.site.register(UserInteraction,UserInteractionAdmin)
 admin.site.register(Offers,OffersAdmin)

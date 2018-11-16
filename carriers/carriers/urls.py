@@ -7,11 +7,11 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
+    url(r'^admin/doc/', include('django.contrib.admindocs.urls')), #self generated documentation
     url(r'^admin/', admin.site.urls),
-    url(r'accounts/', include('django.contrib.auth.urls')),
-    url(r'^', include('fastweb.urls')),
-    url(r'^', include('fastweb.API.urls')),
+    #url(r'accounts/', include('django.contrib.auth.urls')),
+    url(r'^', include('fastweb.urls')), #urls UI application endpoint
+    url(r'^', include('fastweb.API.urls')),#urls API endpoint
 
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
